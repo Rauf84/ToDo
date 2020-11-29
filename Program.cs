@@ -10,8 +10,10 @@ namespace ToDo
         {
             Welcome();
             List<string> tasks = new List<string>();
+            List<string> completedTasks = new List<string>();
             AddTask(tasks);
             ShowTasks(tasks);
+            Menu(tasks,completedTasks);
 
 
         }
@@ -51,6 +53,31 @@ namespace ToDo
                 Console.Write(i+1 + ": ");
                 Console.WriteLine(tasks[i]);
             }
+        }
+
+        static private void Menu(List<string> tasks,List<string> completedTasks)
+        {
+            string choise;
+            do
+            {
+                Console.WriteLine("Välj något av följande alternativ: ");
+                Console.WriteLine("1. Lägg till uppgift");
+                Console.WriteLine("2. Visa alla uppgifter");
+                Console.WriteLine("q. Avsluta programmet");
+                choise = Console.ReadLine();
+
+                if (choise == "1")
+                {
+                    Console.WriteLine("Du har valt att lägga till en ny uppgift:");
+                    Console.Write(tasks.Count + 1 + ": ");
+                    string nyItem = Console.ReadLine();
+                    tasks.Add(nyItem);
+                }
+                else if (choise == "2")
+                {
+                    ShowTasks(tasks);
+                }
+            } while (choise != "q");
         }
 
       
