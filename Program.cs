@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace ToDo
@@ -15,7 +16,6 @@ namespace ToDo
             ShowTasks(tasks);
             Menu(tasks,completedTasks);
 
-
         }
 
         static private void Welcome()
@@ -25,7 +25,7 @@ namespace ToDo
             Console.WriteLine("Lägg till en uppgift i taget, (skriv 'q' för att avsluta)");
         }
 
-        static private void AddTask(List<string> tasks)
+        static public void AddTask(List<string> tasks)
         {
             bool addTaskloop = true;
             while (addTaskloop)
@@ -50,6 +50,7 @@ namespace ToDo
             Console.WriteLine("Visa uppgifter: ");
             for (int i = 0; i < tasks.Count; i++)
             {
+                Console.Write("Uppgift ");
                 Console.Write(i+1 + ": ");
                 Console.WriteLine(tasks[i]);
             }
@@ -60,15 +61,20 @@ namespace ToDo
             string choise;
             do
             {
+                Console.WriteLine("_____________________________");
                 Console.WriteLine("Välj något av följande alternativ: ");
                 Console.WriteLine("1. Lägg till uppgift");
                 Console.WriteLine("2. Visa alla uppgifter");
+                Console.WriteLine("3. Klarmarkera uppgiften");
+                Console.WriteLine("4. Visa avklarade uppgifter");
+                Console.WriteLine("5. Ta bort en uppgift");
                 Console.WriteLine("q. Avsluta programmet");
                 choise = Console.ReadLine();
 
                 if (choise == "1")
                 {
                     Console.WriteLine("Du har valt att lägga till en ny uppgift:");
+                    Console.Write("Uppgift ");
                     Console.Write(tasks.Count + 1 + ": ");
                     string nyItem = Console.ReadLine();
                     tasks.Add(nyItem);
@@ -76,10 +82,30 @@ namespace ToDo
                 else if (choise == "2")
                 {
                     ShowTasks(tasks);
+                }else if (choise == "3")
+                {
+                    DoneTasks(tasks,completedTasks);
+                } else if (choise == "4")
+                {
+                    ShowTasks(completedTasks);
+                } else if (choise == "5")
+                {
+                    // Ta bort en uppgift
+                    Console.Write("Vilken uppgift vill du ta bort? Uppgift nr: ");
+                    int delete = Convert.ToInt32(Console.ReadLine());
+                    tasks.Remove(tasks[delete-1]);
                 }
             } while (choise != "q");
         }
 
-      
+        static private void DoneTasks(List<string> tasks, List<string> complatedTasks) // klarmarkerar uppgiften
+        {
+            Console.Write("VIlken uppgift vill du klarmarkera? Uppgift nu: ");
+            int moveToDone = Convert.ToInt32(Console.ReadLine());
+            string item = tasks[moveToDone-1];
+            complatedTasks.Add(item);
+            tasks.Remove(tasks[moveToDone - 1]);
+        }
+
     }
 }
